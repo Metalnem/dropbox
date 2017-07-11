@@ -44,6 +44,7 @@ func (d *digest) Write(p []byte) (int, error) {
 		if d.n == 0 {
 			h := d.h.Sum(nil)
 			d.b = append(d.b, h)
+			d.h.Reset()
 		}
 	}
 
@@ -54,14 +55,20 @@ func (d *digest) Sum(in []byte) []byte {
 	h := sha256.New()
 
 	for _, b := range d.b {
-		h.Write(hexEncode(b))
+		h.Write(b)
 	}
 
 	if d.n > 0 {
-		h.Write(hexEncode(d.h.Sum(nil)))
+		h.Write(d.h.Sum(nil))
 	}
 
-	return append(in, hexEncode(h.Sum(nil))...)
+	sum := h.Sum(nil)
+	l := hex.EncodedLen(len(sum))
+
+	dst := make([]byte, l)
+	hex.Encode(dst, sum)
+
+	return append(in, dst...)
 }
 
 func (d *digest) Reset() {
@@ -76,11 +83,4 @@ func (*digest) Size() int {
 
 func (*digest) BlockSize() int {
 	return BlockSize
-}
-
-func hexEncode(b []byte) []byte {
-	dst := make([]byte, hex.EncodedLen(len(b)))
-	hex.Encode(dst, b)
-
-	return dst
 }
