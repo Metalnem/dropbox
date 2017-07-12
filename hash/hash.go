@@ -48,6 +48,10 @@ func (d *digest) Write(p []byte) (int, error) {
 }
 
 func (d *digest) Sum(in []byte) []byte {
+	// It's not possible to copy the sha256 state, so instead of keeping
+	// one global checksum, we have to keep hashes of all completed
+	// blocks and sum them when needed.
+
 	h := sha256.New()
 
 	for _, b := range d.b {
