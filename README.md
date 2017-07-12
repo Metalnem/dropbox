@@ -1,1 +1,1 @@
-# Dropbox API content hasher
+# Dropbox API content hasher [![Build Status](https://travis-ci.org/Metalnem/dropbox.svg?branch=master)](https://travis-ci.org/Metalnem/dropbox) [![GoDoc](https://godoc.org/github.com/Metalnem/dropbox?status.svg)](https://godoc.org/github.com/Metalnem/dropbox) [![Go Report Card](https://goreportcard.com/badge/github.com/Metalnem/dropbox)](https://goreportcard.com/report/github.com/Metalnem/dropbox) [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/metalnem/dropbox/master/LICENSE)
