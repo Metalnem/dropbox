@@ -3,12 +3,8 @@ package hash
 
 import (
 	"crypto/sha256"
-	"encoding/hex"
 	"hash"
 )
-
-// Size is the size of a Dropbox API checksum in bytes.
-const Size = 64
 
 // BlockSize is the block size of a Dropbox API checksum in bytes.
 const BlockSize = 4 * 1024 * 1024
@@ -62,13 +58,7 @@ func (d *digest) Sum(in []byte) []byte {
 		h.Write(d.h.Sum(nil))
 	}
 
-	sum := h.Sum(nil)
-	l := hex.EncodedLen(len(sum))
-
-	dst := make([]byte, l)
-	hex.Encode(dst, sum)
-
-	return append(in, dst...)
+	return append(in, h.Sum(nil)...)
 }
 
 func (d *digest) Reset() {
@@ -78,7 +68,7 @@ func (d *digest) Reset() {
 }
 
 func (*digest) Size() int {
-	return Size
+	return sha256.Size
 }
 
 func (*digest) BlockSize() int {

@@ -1,6 +1,7 @@
 package hash
 
 import (
+	"encoding/hex"
 	"fmt"
 	"testing"
 )
@@ -25,13 +26,13 @@ func TestSum(t *testing.T) {
 		size := test.size
 		hash := test.hash
 
-		t.Run(fmt.Sprintf("%d-fast", size), func(t *testing.T) {
+		t.Run(fmt.Sprintf("%d", size), func(t *testing.T) {
 			t.Parallel()
 
 			h := New()
 			h.Write(make([]byte, size))
 
-			got := string(h.Sum(nil))
+			got := hex.EncodeToString(h.Sum(nil))
 			want := hash
 
 			if got != want {
@@ -39,7 +40,7 @@ func TestSum(t *testing.T) {
 			}
 		})
 
-		t.Run(fmt.Sprintf("%d-slow", size), func(t *testing.T) {
+		t.Run(fmt.Sprintf("%d", size), func(t *testing.T) {
 			t.Parallel()
 
 			h := New()
@@ -49,7 +50,7 @@ func TestSum(t *testing.T) {
 				h.Write(b)
 			}
 
-			got := string(h.Sum(nil))
+			got := hex.EncodeToString(h.Sum(nil))
 			want := hash
 
 			if got != want {
